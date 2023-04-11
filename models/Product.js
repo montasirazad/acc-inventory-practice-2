@@ -74,7 +74,7 @@ const productSchema = mongoose.Schema({
     //     default: Date.now
     // }
 }, {
-    timesTamps: true
+    timestamps: true
 });
 // middleware before saving data
 productSchema.pre('save', function (next) {
