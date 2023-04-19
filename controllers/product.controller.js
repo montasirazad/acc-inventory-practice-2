@@ -12,7 +12,13 @@ const {
 
 exports.getProducts = async (req, res, next) => {
     try {
-        const products = await getProductService()
+        const queryObject = { ...req.query };
+
+        const excludeObject = ['sort', 'page', 'limit'];
+
+        excludeObject.forEach(field => delete queryObject[field])
+
+        const products = await getProductService(queryObject)
 
         // const product = await Product.find({undefined})
 

@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 
 exports.getProductService = async () => {
-    const products = await Product.find({});
+    const products = await Product.find();
     return products;
 }
 
@@ -45,6 +45,6 @@ exports.deleteProductByIdService = async (id) => {
 }
 
 exports.bulkDeleteProductService = async (ids) => {
-    const result = await Product.deleteMany({ _id: ids })
+    const result = await Product.deleteMany({})
     return result;
 }
