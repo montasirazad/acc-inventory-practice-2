@@ -11,9 +11,21 @@ const {
 
 
 exports.getProducts = async (req, res, next) => {
-    try {
-        const filters = { ...req.query };
 
+    try {
+
+        //{price:{$gt:50}}
+        //{ price: { gt: '50' } }
+        // gt, lt, lte, gte
+
+
+        //console.log(req.query);
+
+        let filters = { ...req.query };
+        let filtersString = JSON.stringify(filters);
+        filtersString = filtersString.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
+        filters = JSON.parse(filtersString)
+        console.log(filters);
         const excludeObject = ['sort', 'page', 'limit'];
 
         excludeObject.forEach(field => delete filters[field])
@@ -23,16 +35,16 @@ exports.getProducts = async (req, res, next) => {
         if (req.query.sort) {
             const sortBy = req.query.sort.split(',').join(' ');
             queries.sortBy = sortBy;
-            console.log(sortBy);
+            //console.log(sortBy);
         }
 
         if (req.query.fields) {
             const fields = req.query.fields.split(',').join(' ');
             queries.fields = fields;
-            console.log(fields);
+            //console.log(fields);
         }
 
-        
+
         const products = await getProductService(filters, queries)
 
         // const product = await Product.find({undefined})
