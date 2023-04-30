@@ -18,7 +18,22 @@ exports.getProducts = async (req, res, next) => {
 
         excludeObject.forEach(field => delete filters[field])
 
-        const products = await getProductService(filters)
+        const queries = {};
+
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            queries.sortBy = sortBy;
+            console.log(sortBy);
+        }
+
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            queries.fields = fields;
+            console.log(fields);
+        }
+
+        
+        const products = await getProductService(filters, queries)
 
         // const product = await Product.find({undefined})
 
