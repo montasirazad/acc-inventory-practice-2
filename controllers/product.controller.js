@@ -44,7 +44,23 @@ exports.getProducts = async (req, res, next) => {
             //console.log(fields);
         }
 
+        if (req.query.page) {
+            const { page = 1, limit = 10 } = req.query; // data is string
+            const skip = (page - 1) * parseInt(limit);
+            queries.skip = skip;
+            queries.limit = parseInt(limit);
 
+
+            /**
+             * total product 50
+             * each page 10 products
+             * page 1 -> 1-10
+             * page 2-> 11-20
+             * page 3 -> 21-30 -> page 3 skip 1-20 -->3-1=2*10=20
+             * page 4 -> 31-40 ->page 4 skip 1-30 
+             * page 5 -> 41-50
+             */
+        }
         const products = await getProductService(filters, queries)
 
         // const product = await Product.find({undefined})
